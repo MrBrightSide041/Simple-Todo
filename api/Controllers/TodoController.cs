@@ -11,16 +11,18 @@ namespace api.Controllers
     [ApiController]
     public class TodoController : ControllerBase
     {
+        private readonly DataContext _context;
+
+        public TodoController(DataContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<Todo>>> GetAllTodo()
         {
-            var todos = new List<Todo> {
-                new Todo
-                {
-                    Description = "Buy Milk"
+            var todos = await _context.Todos.ToListAsync();
 
-                }
-            };
             return Ok(todos);
         }
     }
